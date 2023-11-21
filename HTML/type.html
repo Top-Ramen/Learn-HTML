@@ -1,0 +1,19 @@
+<input id="text" oninput="gettheText(event)"></input>
+
+<h1 id="result"></h1>
+
+<script>
+    function gettheText(event) {
+        document.getElementById("result").textContent = event.target.value
+    }
+</script>
+
+<input id="text2" onkeyup="update()"></input>
+
+<h1 id="result2"></h1>
+
+<script>
+    function update() {
+        document.getElementById("result2").textContent = document.getElementById("text2").value
+    }
+</script>

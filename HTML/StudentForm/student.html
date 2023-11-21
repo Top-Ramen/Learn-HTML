@@ -1,0 +1,257 @@
+<style>
+    input {
+        align-self: auto;
+    }
+
+    .textBox {
+        width: 100%;
+    }
+
+    p {
+        font-style: normal;
+    }
+
+    .errorMsg {
+        color: red;
+        font-size: larger;
+        font-weight: bold;
+        text-align: center;
+    }
+
+    label {
+        text-align: center;
+    }
+
+    table {
+        border-collapse: collapse;
+        /* Collapse borders into a single border */
+        width: 25%;
+        text-align: center;
+        border: 2px solid black;
+        padding: 5%;
+        margin-bottom: 2%;
+    }
+
+    .result {
+        width: 80%;
+        table-layout: auto;
+        vertical-align: middle;
+        margin: auto;
+
+    }
+
+    th {
+        border: 2px solid black;
+        /* 2 pixels solid border with light gray color */
+        padding: 8px;
+        text-align: center;
+    }
+
+    td {
+        border: 2px solid black;
+        /* 2 pixels solid border with light gray color */
+        padding: 8px;
+    }
+
+    .label {
+        text-align: center;
+    }
+
+    .value {
+        text-align: left;
+    }
+
+    .radioBox {
+        width: 90%;
+        font-weight: bold;
+        padding-left: 5%;
+        padding-right: 5%;
+    }
+</style>
+<div id="headSection">
+    <h1 id="headTitle" align="center">STUDENT FORM</h1>
+</div>
+<div id="errorSection">
+    <p id="resultMsg" class="errorMsg"></p>
+</div>
+<div id="inputForm">
+    <table align="center" id="sourceTable">
+        <tr>
+            <td class="label">
+                <b> <label for="studentName">Name</label> </b>
+            </td>
+            <td class="value">
+                <input id="studentName" class="textBox">
+            </td>
+        </tr>
+        <tr>
+            <td class="label">
+                <b> <label for="age">Age</label> </b>
+            </td>
+            <td class="value">
+                <input id="age" class="textBox">
+            </td>
+        </tr>
+        <tr>
+            <td class="label">
+                <b> <label for="gender">Gender</label> </b>
+            </td>
+            <td class="radioBox">
+                <label>
+                    <input type="radio" name="gender" value="male"> Male
+                </label>
+                <label>
+                    <input type="radio" name="gender" value="female"> Female
+                </label>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <b> <label for="course">Course</label> </b>
+            </td>
+            <td>
+                <select name="courseName" id="course" style="width: 100%;">
+                    <option value="0">Java</option>
+                    <option value="1">JS</option>
+                    <option value="2">Selenium</option>
+                    <option value="3">Jenkins</option>
+                    <option value="4">Github</option>
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <td class="label">
+                <b> <label for="email">E-Mail</label> </b>
+            </td>
+            <td class="value">
+                <input id="email" class="textBox">
+            </td>
+        </tr>
+        <tr style="width: 50%;">
+            <td colspan="2"> <button id="save" class="textBox" onclick="saveData()">Save</button> </td>
+        </tr>
+    </table>
+</div>
+<div id="resultTable" onload="verifyRowData()">
+    <table id="result" class="result">
+        <thead>
+            <th>Name</th>
+            <th>Age</th>
+            <th>Gender</th>
+            <th>Course</th>
+            <th>E-Mail</th>
+        </thead>
+        <tbody></tbody>
+        <!-- <tr>
+            
+        </tr> -->
+    </table>
+</div>
+
+<script>
+    var elementName = document.getElementById("studentName")
+    var elementAge = document.getElementById("age")
+    var elementGender = document.getElementsByName("gender")
+    var elementCourse = document.getElementById("course")
+    var elementEmail = document.getElementById("email")
+    var elementErrorMessage = document.getElementById("resultMsg")
+    var tableBody = document.getElementById("result").getElementsByTagName("tbody")[0];
+
+    function saveData() {
+        verifyRowData()
+
+        // Verifying the error message is displayed and if so empty the same
+        emptyErrorMessage();
+
+        // Verifying the form data is filled appropriately
+        let dataStatus = verifyData();
+        if (dataStatus) {
+            // Getting Form Data entered by the user
+            let formData = getFormData();
+
+            // Creating a new row in the html table
+            var insertingRow = tableBody.insertRow()
+            // Setting ID for the row
+            insertingRow.setAttribute("id", formData[0])
+
+            for (i = 0; i < formData.length; i++) {
+                insertingRow.insertCell(i).textContent = formData[i];
+            }
+
+            clearForm();
+        }
+
+
+    }
+    function displayErrorMessage(message) {
+        document.getElementById("resultMsg").textContent = message;
+    }
+    function getFormData() {
+        let formData = new Array(5);
+        // Setting name value
+        formData[0] = elementName.value;
+        // Setting age value
+        formData[1] = elementAge.value;
+        // Setting gender value
+        if (elementGender[0].checked)
+            formData[2] = 'Male'
+        else
+            formData[2] = 'Female'
+        // Setting course value
+        formData[3] = elementCourse.options[elementCourse.value].text
+        // Setting email address value
+        formData[4] = elementEmail.value
+        // Returning Data
+        return formData;
+    }
+    function verifyData() {
+        if (elementName.value == null || elementName.value == undefined || elementName.value == "") {
+            displayErrorMessage("Please enter a valid Name");
+            return false;
+        } else if (elementAge.value == null || elementAge.value == undefined || elementAge.value == "") {
+            displayErrorMessage("Please enter a valid Age");
+            return false;
+        } else if (elementGender[0].checked == false && elementGender[1].checked == false) {
+            displayErrorMessage("Please select gender");
+            return false;
+        } else if (elementCourse.value == null || elementCourse.value == undefined || elementCourse.value == "") {
+            displayErrorMessage("Please select Course");
+            return false;
+        } else if (elementEmail.value == null || elementEmail.value == undefined || elementEmail.value == "") {
+            displayErrorMessage("Please enter valid email address");
+            return false;
+        } else {
+            return true;
+        }
+    }
+    function emptyErrorMessage() {
+        if (elementErrorMessage.textContent != "")
+            elementErrorMessage.textContent = "";
+    }
+    function clearForm() {
+        elementName.value = "";
+        elementAge.value = "";
+        elementEmail.value = "";
+        elementCourse.value = 0;
+        if (elementGender[0].checked)
+            elementGender[0].checked = false;
+        else
+            elementGender[1].checked = false;
+
+
+    }
+    function verifyRowData() {
+        let rowData = tableBody.getElementsByTagName("tr");
+        if (rowData.length < 1) {
+            var warningMessageRow = tableBody.insertRow()
+            var col = warningMessageRow.insertCell()
+            col.setAttribute("colspan", 5)
+            col.setAttribute("id", "dataDisplay")
+            col.setAttribute("align", "center")
+            col.style.width = "100%"
+            col.textContent = "No Data to Display!"
+        } else {
+           
+        }
+    }
+</script>
