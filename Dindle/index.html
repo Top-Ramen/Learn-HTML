@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dindle</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Ubuntu&display=swap" rel="stylesheet">
+
+</head>
+
+<body>
+    <div class="navbar">
+        <h1>Dindle</h1>
+    </div>
+
+    <div class="container">
+        <div class="book-container">
+            <h2>Rich Dad Poor Dad</h2>
+            <h5>Robert Marudhanayagam</h5>
+            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Eius perferendis ut quis illum labore ab
+                exercitationem. Hic doloremque distinctio iste nemo debitis beatae architecto, molestias, iure, eaque id
+                alias laboriosam?</p>
+            <button>Delete</button>
+        </div>
+    </div>
+    <div class="popup-overlay">
+
+    </div>
+    <div class="popupbox">
+        <form >
+            <input type="text" placeholder="Book-Title" id="Book-Title-Input">
+            <input type="text" placeholder="Book-Author" id="Book-Author-Input">
+            <textarea id="Book-Description-Input" placeholder="Book-Short-Description"  cols="25" rows="4"></textarea>
+            <button id="Add-Book" onclick="def(event)">Add</button>
+            <button id="Cancel-Popup" onclick="def(event)">Cancel</button>
+        </form>
+    </div>
+    <button class="add-button" id="add-pop-up-button">+</button>
+    <script src="script.js"></script>
+
+</body>
+
+</html>
